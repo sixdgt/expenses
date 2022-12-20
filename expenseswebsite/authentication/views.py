@@ -38,9 +38,9 @@ class RegistrationView(View):
                 user.is_active = False
                 user.save()
 
-                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                uidb64 = urlsafe_base64_encode(force_bytes(user.id))
                 domain = get_current_site(request).domain
-                link = reverse("activate", kwargs={"uib64": uidb64, "token": token_generator.make_token(user)})
+                link = reverse("activate", kwargs={"uidb64": uidb64, "token": token_generator.make_token(user)})
 
                 email_sub = "Activate your acount"
                 activate_url = 'http://' + domain + link
@@ -58,7 +58,7 @@ class RegistrationView(View):
 
 class VerificationView(View):
     def get(self, request, uidb64, token):
-        return redirect("login")
+        return redirect("register")
 
 
 
